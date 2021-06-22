@@ -1,16 +1,20 @@
 #include "Enemy.h"
 #include "animacja.h"
 
-Enemy::Enemy(sf::Texture* texture, sf::Vector2f position, float speed) 
+Enemy::Enemy(sf::Texture* texture, sf::Vector2f position, float speed, sf::Vector2u imageCount, float switchTime) : animation(texture, imageCount, switchTime)
 {
 	this->speed = speed;
-
-	body.setSize(sf::Vector2f(40.0f, 60.0f));
-	body.setOrigin(20.0f, 30.0f);
+	
+	row = 0;
+	faceRight = true;
+	body.setSize(sf::Vector2f(50.0f, 40.0f));
+	body.setOrigin(25.0f, 20.0f);
 	body.setPosition(position);
 	body.setTexture(texture);
 	
 	exists = true;
+
+	
 }
 
 Enemy::~Enemy()
@@ -20,19 +24,81 @@ Enemy::~Enemy()
 void Enemy::update1(float deltaTime)
 {
 	bound = body.getGlobalBounds();
-	velocity.x = speed;
 	
+	//velocity.x = speed;
 
-	if (body.getPosition().x == 300.0f)
+	if (body.getPosition().x >= 840.0f)
 	{
 		velocity.x = -speed;
+		
 	}
-	if (body.getPosition().x == 50.0f)
+	if (body.getPosition().x <= 560.0f)
 	{
-		velocity.x = speed;
+		velocity.x = +speed;
 	}
+	animation.Update(row, deltaTime, faceRight);
+	body.setTextureRect(animation.uvRect);
+	body.move(velocity * deltaTime);
+
+}
+void Enemy::update2(float deltaTime)
+{
+	bound = body.getGlobalBounds();
+	
+	//velocity.x = speed;
+
+	if (body.getPosition().x >= 640.0f)
+	{
+		velocity.x = -speed;
+		
+	}
+	if (body.getPosition().x <= 230.0f)
+	{
+		velocity.x = +speed;
+	}
+	animation.Update(row, deltaTime, faceRight);
+	body.setTextureRect(animation.uvRect);
 	body.move(velocity * deltaTime);
 }
+void Enemy::update3(float deltaTime)
+{
+	bound = body.getGlobalBounds();
+	
+	//velocity.x = speed;
+
+	if (body.getPosition().x >= 840.0f)
+	{
+		velocity.x = -speed;
+		
+	}
+	if (body.getPosition().x <= 560.0f)
+	{
+		velocity.x = +speed;
+	}
+	animation.Update(row, deltaTime, faceRight);
+	body.setTextureRect(animation.uvRect);
+	body.move(velocity * deltaTime);
+}
+void Enemy::update4(float deltaTime)
+{
+	bound = body.getGlobalBounds();
+	
+	//velocity.x = speed;
+
+	if (body.getPosition().x >= 640.0f)
+	{
+		velocity.x = -speed;
+		
+	}
+	if (body.getPosition().x <= 360.0f)
+	{
+		velocity.x = +speed;
+	}
+	animation.Update(row, deltaTime, faceRight);
+	body.setTextureRect(animation.uvRect);
+	body.move(velocity * deltaTime);
+}
+
 
 void Enemy::Draw(sf::RenderWindow& window)
 {

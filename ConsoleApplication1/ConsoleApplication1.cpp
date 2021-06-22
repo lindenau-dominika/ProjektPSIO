@@ -13,8 +13,12 @@ int main()
 {
     sf::RenderWindow window(sf::VideoMode(1820, 1024), "AiRrcherito", sf::Style::Close | sf::Style::Fullscreen); //renderuję okno, nadaję początkowe parametry, jak wielkość okna czy tytuł, ustalam styl okna, czyli np. szerokość, wysokość, czy posiada pasek tytułowy, czy jest podatny na modyfikacje etc.
     sf::View view(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(700.0f, 384.0f));
-    sf::RectangleShape endbox(sf::Vector2f(290.f, 400.f));
-
+    sf::RectangleShape endbox(sf::Vector2f(260.f, 200.f));
+    sf::RectangleShape meme(sf::Vector2f(1000.f, 300.f));
+    sf::RectangleShape bckground(sf::Vector2f(5000.f, 5000.f));
+    meme.setPosition(-800.0, 1000.0);
+    endbox.setPosition(600, -1500);
+    bckground.setPosition(-2500, -1800);
 
     //Czcionka, menu
     sf::Font font;
@@ -74,7 +78,7 @@ int main()
     sf::Texture playerTexture;
     playerTexture.loadFromFile("Playersprite.png");
     sf::Texture backgroundTexture;
-    backgroundTexture.loadFromFile("background.png");
+    backgroundTexture.loadFromFile("sky.png");
     sf::Texture background2Texture;
     background2Texture.loadFromFile("background2.png");
     sf::Texture platformTexture;
@@ -82,16 +86,24 @@ int main()
     sf::Texture endboxTexture;
     endboxTexture.loadFromFile("endingbox.jpg");
     sf::Texture mTexture;
-    mTexture.loadFromFile("monster.png");
-
+    mTexture.loadFromFile("enemo.png");
+    sf::Texture blockTexture;
+    blockTexture.loadFromFile("trreee2.png");
+    sf::Texture memeTexture;
+    memeTexture.loadFromFile("tenor.gif");
+    meme.setTexture(&memeTexture);
+    endbox.setTexture(&endboxTexture);
+    bckground.setTexture(&backgroundTexture);
     Player background2(&background2Texture, sf::Vector2u(1, 1), 0.3f, 100.0f, 200.0f);
-    Player background(&backgroundTexture, sf::Vector2u(1, 1), 0.3f, 60.0f, 200.0f);
+    //Player background(&backgroundTexture, sf::Vector2u(1, 1), 0.3f, 0.0f, 200.0f);
     Player player(&playerTexture, sf::Vector2u(8, 6), 0.1f, 200.0f, 300.0f);
     Player updateB3(&endboxTexture, sf::Vector2u(1, 1), 0.1f, 0.0f, 0.0f);
 
-    Enemy monster(&mTexture, sf::Vector2f(200.0f, 228.0f), 50.0f);
-    Enemy monster1(&mTexture, sf::Vector2f(300.0f, 228.0f), 50.0f);
-    Enemy monster2(&mTexture, sf::Vector2f(400.0f, 228.0f), 50.0f);
+    Enemy monster(&mTexture, sf::Vector2f(850.0f, -1220.0f), 60.0f, sf::Vector2u(8, 1), 0.03f);
+    Enemy monster1(&mTexture, sf::Vector2f(650.0f, -640.0f), 50.0f, sf::Vector2u(8, 1), 0.03f);
+    Enemy monster2(&mTexture, sf::Vector2f(850.0f, -60.0f), 70.0f, sf::Vector2u(8, 1), 0.03f);
+    Enemy monster3(&mTexture, sf::Vector2f(650.0f, 230.0f), 70.0f, sf::Vector2u(8, 1), 0.03f); 
+    
    // std::vector<Enemy> enemies;
     /*enemies.push_back(Enemy(&mTexture, sf::Vector2f(200.0f, 128.0f), 100.0f));
     enemies.push_back(Enemy(&mTexture, sf::Vector2f(200.0f, 228.0f), 100.0f));*/
@@ -101,18 +113,24 @@ int main()
 
     platforms.push_back(Platform(&platformTexture, sf::Vector2f(300.0f, 100.0f), sf::Vector2f(700.0f, -1150.0f)));
     platforms.push_back(Platform(&platformTexture, sf::Vector2f(300.0f, 100.0f), sf::Vector2f(515.0f, -860.0f)));
-    platforms.push_back(Platform(&platformTexture, sf::Vector2f(300.0f, 100.0f), sf::Vector2f(500.0f, -570.0f)));
+    platforms.push_back(Platform(&platformTexture, sf::Vector2f(500.0f, 100.0f), sf::Vector2f(420.0f, -570.0f)));
     platforms.push_back(Platform(&platformTexture, sf::Vector2f(300.0f, 100.0f), sf::Vector2f(900.0f, -280.0f)));
     platforms.push_back(Platform(&platformTexture, sf::Vector2f(300.0f, 100.0f), sf::Vector2f(700.0f, 10.0f)));
     platforms.push_back(Platform(&platformTexture, sf::Vector2f(300.0f, 100.0f), sf::Vector2f(500.0f, 300.0f)));
     platforms.push_back(Platform(&platformTexture, sf::Vector2f(2000.0f, 200.0f), sf::Vector2f(500.0f, 600.0f)));
-    platforms.push_back(Platform(&endboxTexture, sf::Vector2f(200.0f, 145.0f), sf::Vector2f(700.0f, -1400.0f)));
+    platforms.push_back(Platform(&platformTexture, sf::Vector2f(2000.0f, 200.0f), sf::Vector2f(-600.0f, 1400.0f)));
+    platforms.push_back(Platform(&blockTexture, sf::Vector2f(300.0f, 300.0f), sf::Vector2f(1400.0f, 395.0f)));
+    platforms.push_back(Platform(&blockTexture, sf::Vector2f(300.0f, 300.0f), sf::Vector2f(-360.0f, 395.0f)));
+    platforms.push_back(Platform(&blockTexture, sf::Vector2f(300.0f, 400.0f), sf::Vector2f(100.0f, 1150.0f)));
+    
+    //platforms.push_back(Platform(&endboxTexture, sf::Vector2f(200.0f, 145.0f), sf::Vector2f(700.0f, -1400.0f)));
 
         sf::Music music;
         if (!music.openFromFile("mjuzik.wav"))
             return -1;
-        music.setVolume(0.f);
+        music.setVolume(20.f);
         music.play();
+        music.setLoop(true);
 
 
     float deltaTime = 0.0f;
@@ -207,8 +225,10 @@ int main()
                 // "odswiezam" klatki
                 window.clear();
                 window.setView(view);
-
-                background.Draw(window);
+                
+                //background.Draw(window);
+                window.draw(bckground);
+                window.draw(meme);
                 background2.Draw(window);
                 for (Platform& platform : platforms)
                     platform.Draw(window);
@@ -225,7 +245,7 @@ int main()
                         player.OnCollision(direction);
                     }
                 player.update(deltaTime);
-                background.updateB(deltaTime);
+                //background.updateB(deltaTime);
                 background2.updateB2(deltaTime);
                 
                 if (monster.getExists())
@@ -247,7 +267,7 @@ int main()
                 
                 if (monster1.getExists())
                 {
-                    monster1.update1(deltaTime);
+                    monster1.update2(deltaTime);
 
                     if (player.getBounds().intersects(monster1.getBounds()))
                     {
@@ -260,7 +280,7 @@ int main()
                 }
                 if (monster2.getExists())
                 {
-                    monster2.update1(deltaTime);
+                    monster2.update3(deltaTime);
 
                     if (player.getBounds().intersects(monster2.getBounds()))
                     {
@@ -271,23 +291,41 @@ int main()
                     monster2.Draw(window);
 
                 }
+                if (monster3.getExists())
+                {
+                    monster3.update4(deltaTime);
+
+                    if (player.getBounds().intersects(monster3.getBounds()))
+                    {
+                        monster3.kill();
+                        z--;
+
+                    }
+                    monster3.Draw(window);
+
+                }
                 if (z == 0)
                 {
                     window.close();
                 }
+                if (player.GetPosition().y <= -1180 && player.GetPosition().x > 100)
+                {
+                    window.draw(endbox);
+                }if (player.GetPosition().y <= -1300 && player.GetPosition().x > 100)
+                {
+                    window.close();
+                }
+                
 
                     view.setCenter(player.GetPosition());
                     hp.setPosition(player.GetPosition().x -130.0f, player.GetPosition().y + 140.f);
                     zycie.setPosition(player.GetPosition().x -310.0f, player.GetPosition().y + 140.f);
                
-                
-                
+                window.draw(hp);
+                window.draw(zycie);
                
                 if (evnt.key.code == sf::Keyboard::Escape) {
-                    if (in_menu) {
-                        option = 3;
-                        in_menu = false;
-                    }
+                    window.close();
                 }
 
             }
@@ -311,8 +349,10 @@ int main()
             }
         }
         hp.setString(std::to_string(z));
-        window.draw(zycie);
-        window.draw(hp);
+        
+        
+        
+        
         window.display();
         window.clear();
 

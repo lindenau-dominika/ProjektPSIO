@@ -67,7 +67,10 @@ void Player::update(float deltaTime)
 	{
 		row = 1;
 	}
-
+	if (body.getPosition().x  <= -1000.0f)
+	{
+		body.setPosition(128.0f, 450.0f);
+	}
 	
 	animation.Update(row, deltaTime, faceRight);
 	body.setTextureRect(animation.uvRect);
@@ -92,6 +95,7 @@ void Player::updateB(float deltaTime)
 		velocity.x = speed;
 		row = 0;
 	}
+
 
 	//animation.Update(row, deltaTime, faceRight);
 	body.setTextureRect(animation.uvRect);
