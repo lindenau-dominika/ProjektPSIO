@@ -1,15 +1,16 @@
 #include "Enemy.h"
 #include "animacja.h"
 
-Enemy::Enemy(sf::Texture* texture, sf::Vector2f position) 
+Enemy::Enemy(sf::Texture* texture, sf::Vector2f position, float speed) 
 {
 	this->speed = speed;
 
 	body.setSize(sf::Vector2f(40.0f, 60.0f));
 	body.setOrigin(20.0f, 30.0f);
 	body.setPosition(position);
-	//Enemy enemy(&monsterTexture, 100.0f, sf::Vector2f(700.0f, 200.0f));
-
+	body.setTexture(texture);
+	
+	exists = true;
 }
 
 Enemy::~Enemy()
@@ -18,17 +19,19 @@ Enemy::~Enemy()
 }
 void Enemy::update1(float deltaTime)
 {
-	velocity.x = .0f;
-	body.move(velocity * deltaTime);
+	bound = body.getGlobalBounds();
+	velocity.x = speed;
+	
 
-	if (body.getPosition().x + 20.0f == 200.0f)
+	if (body.getPosition().x == 300.0f)
 	{
-		velocity.y = +100.0f;
+		velocity.x = -speed;
 	}
-	if (body.getPosition().x + 20.0f == 100.0f)
+	if (body.getPosition().x == 50.0f)
 	{
-		velocity.y = -100.0f;
+		velocity.x = speed;
 	}
+	body.move(velocity * deltaTime);
 }
 
 void Enemy::Draw(sf::RenderWindow& window)
@@ -49,8 +52,17 @@ void Enemy::OnCollision(sf::Vector2f direction)
 		velocity.x = 0.0f;
 	}
 }
-
-void Enemy::setPos(sf::Vector2f setPos)
+const sf::FloatRect Enemy::getBounds() const
 {
-	body.setPosition(1000.0f, 10000.0f);
+	return this->bound;
+}
+
+bool Enemy::getExists()
+{
+	return this->exists;
+}
+
+void Enemy::kill()
+{
+	this->exists = false;
 }

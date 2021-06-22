@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include "animacja.h"
 #include "Collider.h"
+#include "Enemy.h"
 
 //tworze klase Player w ktorej zamieszczam metody, parametry playera, wykorzystuje rowniez ta klase do stworzenia tla
 class Player
@@ -17,6 +18,7 @@ public:
 	void Draw(sf::RenderWindow& window);
 	//dodaje funkcje ktora podczas kolizji poprawi koordy playera odsuwaj¹c go od przeszkod
 	void OnCollision(sf::Vector2f direction);
+	const sf::FloatRect getBounds() const;
 	//zwraca pozycje playera i collider
 	sf::Vector2f GetPosition()
 	{
@@ -38,6 +40,9 @@ private:
 	sf::Vector2f velocity;
 	bool canJump;
 	float jumpHeight;
+	float health;
+	sf::FloatRect bound;
+
 };
 
 

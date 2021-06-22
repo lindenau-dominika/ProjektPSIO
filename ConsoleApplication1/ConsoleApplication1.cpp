@@ -11,7 +11,7 @@
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(1820, 1024), "AiRrcherito", sf::Style::Close | sf::Style::None); //renderuję okno, nadaję początkowe parametry, jak wielkość okna czy tytuł, ustalam styl okna, czyli np. szerokość, wysokość, czy posiada pasek tytułowy, czy jest podatny na modyfikacje etc.
+    sf::RenderWindow window(sf::VideoMode(1820, 1024), "AiRrcherito", sf::Style::Close | sf::Style::Fullscreen); //renderuję okno, nadaję początkowe parametry, jak wielkość okna czy tytuł, ustalam styl okna, czyli np. szerokość, wysokość, czy posiada pasek tytułowy, czy jest podatny na modyfikacje etc.
     sf::View view(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(700.0f, 384.0f));
     sf::RectangleShape endbox(sf::Vector2f(290.f, 400.f));
 
@@ -24,30 +24,51 @@ int main()
     sf::Text option1;
     sf::Text option2;
     sf::Text option3;
+    
     mejnmenju.setFont(font);
     mejnmenju.setString("AiRcherito");
     mejnmenju.setCharacterSize(120);
     mejnmenju.setFillColor(sf::Color::Cyan);
     mejnmenju.setPosition(sf::Vector2f(220.0f, 50.0f));
+    
     option1.setFont(font);
     option1.setString("Play");
     option1.setCharacterSize(90);
     option1.setFillColor(sf::Color::Cyan);
     option1.setPosition(sf::Vector2f(300.0f, 250.0f));
+    
     option2.setFont(font);
     option2.setString("How to play?");
     option2.setCharacterSize(90);
     option2.setFillColor(sf::Color::Cyan);
     option2.setPosition(sf::Vector2f(400.0f, 450.0f));
+    
     option3.setFont(font);
     option3.setString("Exito see you laterito");
     option3.setCharacterSize(90);
     option3.setFillColor(sf::Color::Cyan);
     option3.setPosition(sf::Vector2f(500.0f, 650.0f));
+    
+    int z = 3;
+    sf::Text hp;
+    hp.setFont(font);
+    hp.setCharacterSize(24);
+    hp.setFillColor(sf::Color::Cyan);
+    hp.setStyle(sf::Text::Bold);
+    hp.setString(std::to_string(z));
+
+    sf::Text zycie;
+    zycie.setFont(font);
+    zycie.setCharacterSize(24);
+    zycie.setFillColor(sf::Color::Cyan);
+    zycie.setStyle(sf::Text::Bold);
+    zycie.setString("Health Points:");
+
 
     int option = 1;
     bool in_menu = true;
     bool good = true;
+    
 
     //Nadaje tekstury obiektom
     sf::Texture playerTexture;
@@ -60,15 +81,20 @@ int main()
     platformTexture.loadFromFile("floor.png");
     sf::Texture endboxTexture;
     endboxTexture.loadFromFile("endingbox.jpg");
-    sf::Texture monsterTexture;
-    monsterTexture.loadFromFile("monster.png");
+    sf::Texture mTexture;
+    mTexture.loadFromFile("monster.png");
 
     Player background2(&background2Texture, sf::Vector2u(1, 1), 0.3f, 100.0f, 200.0f);
     Player background(&backgroundTexture, sf::Vector2u(1, 1), 0.3f, 60.0f, 200.0f);
     Player player(&playerTexture, sf::Vector2u(8, 6), 0.1f, 200.0f, 300.0f);
     Player updateB3(&endboxTexture, sf::Vector2u(1, 1), 0.1f, 0.0f, 0.0f);
-    std::vector<Enemy> enemies;
-    enemies.push_back(Enemy(&monsterTexture, sf::Vector2f(200.0f, 128.0f)));
+
+    Enemy monster(&mTexture, sf::Vector2f(200.0f, 228.0f), 50.0f);
+    Enemy monster1(&mTexture, sf::Vector2f(300.0f, 228.0f), 50.0f);
+    Enemy monster2(&mTexture, sf::Vector2f(400.0f, 228.0f), 50.0f);
+   // std::vector<Enemy> enemies;
+    /*enemies.push_back(Enemy(&mTexture, sf::Vector2f(200.0f, 128.0f), 100.0f));
+    enemies.push_back(Enemy(&mTexture, sf::Vector2f(200.0f, 228.0f), 100.0f));*/
 
     //Tworze wektor by skrocic kod, w tym miejscu wystarczy ctrl+c, ctrl+v, a przy renderowaniu operacje warunkowe
     std::vector<Platform> platforms;
@@ -179,52 +205,84 @@ int main()
         else {
             if (option == 1) {
                 // "odswiezam" klatki
-            
-                player.update(deltaTime);
-                background.updateB(deltaTime);
-                background2.updateB2(deltaTime);
-                for (Enemy& enemy : enemies)
-                    enemy.Draw(window);
+                window.clear();
+                window.setView(view);
+
+                background.Draw(window);
+                background2.Draw(window);
+                for (Platform& platform : platforms)
+                    platform.Draw(window);
+                
+                player.Draw(window);
+                
+                
 
                 sf::Vector2f direction;
 
-
-
                 for (Platform& platform : platforms)
                     if (platform.GetCollider().CheckCollision(player.GetCollider(), direction, 1.0f))
-                        player.OnCollision(direction);
-                /*
-                int enemyindex = 0;
-                for (Enemy& enemy : enemies)
-                {
-                    if (enemy.GetCollider().CheckCollision(player.GetCollider(), direction, 1.0f))
                     {
-                        enemies.erase();
+                        player.OnCollision(direction);
                     }
-                    */
-                std::vector<Enemy>::iterator destroyIndex = nullptr;
-                    for (std::vector<Enemy>::iterator it = enemies.begin(); it != enemies.end(); it++) {
-                            if (it->GetCollider().CheckCollision(player.GetCollider(), direction, 1.0f))
-                            {
-                                destroyIndex = it;
-                            }
+                player.update(deltaTime);
+                background.updateB(deltaTime);
+                background2.updateB2(deltaTime);
+                
+                if (monster.getExists())
+                {   
+                   
+                    monster.update1(deltaTime);
+                    
+
+                    if (player.getBounds().intersects(monster.getBounds()))
+                    {
+                        monster.kill();
+                        z--;
+
                     }
-                    //enemyindex++;
-                //}
-                    enemies.erase(destroyIndex);
+                     
+                    monster.Draw(window);
+                }
+
+                
+                if (monster1.getExists())
+                {
+                    monster1.update1(deltaTime);
+
+                    if (player.getBounds().intersects(monster1.getBounds()))
+                    {
+                        monster1.kill();
+                        z--;
+
+                    }
+                    monster1.Draw(window);
+
+                }
+                if (monster2.getExists())
+                {
+                    monster2.update1(deltaTime);
+
+                    if (player.getBounds().intersects(monster2.getBounds()))
+                    {
+                        monster2.kill();
+                        z--;
+
+                    }
+                    monster2.Draw(window);
+
+                }
+                if (z == 0)
+                {
+                    window.close();
+                }
 
                     view.setCenter(player.GetPosition());
-
-                //window.clear usuwa poprzednie klatki poruszającego się obiektu
-                window.clear();
-                window.setView(view);
-                background.Draw(window);
-                background2.Draw(window);
-                player.Draw(window); //rysowanie postaci
-                for (Platform& platform : platforms)
-                    platform.Draw(window);
-                for (Enemy& enemy : enemies)
-                    enemy.Draw(window);
+                    hp.setPosition(player.GetPosition().x -130.0f, player.GetPosition().y + 140.f);
+                    zycie.setPosition(player.GetPosition().x -310.0f, player.GetPosition().y + 140.f);
+               
+                
+                
+               
                 if (evnt.key.code == sf::Keyboard::Escape) {
                     if (in_menu) {
                         option = 3;
@@ -252,6 +310,9 @@ int main()
                 window.close();
             }
         }
+        hp.setString(std::to_string(z));
+        window.draw(zycie);
+        window.draw(hp);
         window.display();
         window.clear();
 

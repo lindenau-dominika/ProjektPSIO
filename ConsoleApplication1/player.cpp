@@ -1,5 +1,6 @@
 #include "player.h"
 #include "animacja.h"
+#include "Enemy.h"
 
 Player::Player(sf::Texture* texture, sf::Vector2u imageCount, float switchTime, float speed, float jumpHeight) :
 	animation(texture, imageCount, switchTime)
@@ -11,9 +12,10 @@ Player::Player(sf::Texture* texture, sf::Vector2u imageCount, float switchTime, 
 	faceRight = true;
 	
 	body.setSize(sf::Vector2f(80.0f, 112.0f));
-	body.setPosition(128.0f, 128.0f);
+	body.setPosition(128.0f, 450.0f);
     body.setOrigin(40.0f, 56.0f);
     body.setTexture(texture);
+	health = 3.0f;
 	
 }
 
@@ -24,6 +26,7 @@ Player::~Player()
 //pobieram znaki z klawiatury ktore beda odpowiadaly poruszaniu sie playera, warunkujê jaka predkosc ma osiagnac player w danych kierunkach
 void Player::update(float deltaTime)
 {
+	bound = body.getGlobalBounds();
 	/*velocity.x = 0.0f;*/
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
@@ -70,6 +73,10 @@ void Player::update(float deltaTime)
 	body.setTextureRect(animation.uvRect);
 	body.move(velocity * deltaTime);
 }
+const sf::FloatRect Player::getBounds() const
+{
+	return this->bound;
+}
 
 void Player::updateB(float deltaTime)
 {
@@ -112,6 +119,7 @@ void Player::updateB2(float deltaTime)
 	body.move(velocity * deltaTime);
 	body.setSize(sf::Vector2f(1024.0f, 1024.0f));
 	body.setOrigin(512.0f, 512.0f);
+
 }
 
 void Player::Draw(sf::RenderWindow& window)
