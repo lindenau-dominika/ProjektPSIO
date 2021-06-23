@@ -28,16 +28,17 @@ public:
 	{
 		return Collider(body);
 	}
-
+float speed;
+sf::Vector2f velocity;
 private:
 	//nadaje zmienne wykorzystywane do roznych funkcji playera
 	sf::RectangleShape body;
 	Animation animation;
 	unsigned int row;
-	float speed;
+	
 	bool faceRight;
 
-	sf::Vector2f velocity;
+	
 	bool canJump;
 	float jumpHeight;
 	float health;

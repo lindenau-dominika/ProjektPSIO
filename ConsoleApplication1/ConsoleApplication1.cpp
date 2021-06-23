@@ -13,11 +13,13 @@ int main()
 {
     sf::RenderWindow window(sf::VideoMode(1820, 1024), "AiRrcherito", sf::Style::Close | sf::Style::Fullscreen); //renderuję okno, nadaję początkowe parametry, jak wielkość okna czy tytuł, ustalam styl okna, czyli np. szerokość, wysokość, czy posiada pasek tytułowy, czy jest podatny na modyfikacje etc.
     sf::View view(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(700.0f, 384.0f));
-    sf::RectangleShape endbox(sf::Vector2f(260.f, 200.f));
+    sf::RectangleShape endbox(sf::Vector2f(2000.0f, 2000.f));
     sf::RectangleShape meme(sf::Vector2f(1000.f, 300.f));
+    sf::RectangleShape door(sf::Vector2f(200.f, 220.f));
     sf::RectangleShape bckground(sf::Vector2f(5000.f, 5000.f));
     meme.setPosition(-800.0, 1000.0);
-    endbox.setPosition(600, -1500);
+    door.setPosition(-1020.0, 1080.0);
+    
     bckground.setPosition(-2500, -1800);
 
     //Czcionka, menu
@@ -28,12 +30,28 @@ int main()
     sf::Text option1;
     sf::Text option2;
     sf::Text option3;
+    sf::Text option4;
+    sf::Text napis;
+    sf::Text napis1;
     
+
     mejnmenju.setFont(font);
     mejnmenju.setString("AiRcherito");
     mejnmenju.setCharacterSize(120);
     mejnmenju.setFillColor(sf::Color::Cyan);
     mejnmenju.setPosition(sf::Vector2f(220.0f, 50.0f));
+
+    napis.setFont(font);
+    napis.setString("Hmm u must have missed a coin :/ \ncheck on the left just behind the tree!");
+    napis.setCharacterSize(10);
+    napis.setFillColor(sf::Color::White);
+    napis.setPosition(sf::Vector2f(500.f, -1320.f));
+    
+    napis1.setFont(font);
+    napis1.setString("music and graphics (except The Ugandan Knuckles meme) made by the creator of this game");
+    napis1.setCharacterSize(30);
+    napis1.setFillColor(sf::Color::White);
+    napis1.setPosition(sf::Vector2f(400.f, 1000.f));
     
     option1.setFont(font);
     option1.setString("Play");
@@ -51,15 +69,22 @@ int main()
     option3.setString("Exito see you laterito");
     option3.setCharacterSize(90);
     option3.setFillColor(sf::Color::Cyan);
-    option3.setPosition(sf::Vector2f(500.0f, 650.0f));
-    
+    option3.setPosition(sf::Vector2f(600.0f, 650.0f));
+
     int z = 3;
+    int c = 0;
     sf::Text hp;
     hp.setFont(font);
     hp.setCharacterSize(24);
     hp.setFillColor(sf::Color::Cyan);
     hp.setStyle(sf::Text::Bold);
     hp.setString(std::to_string(z));
+    sf::Text coin;
+    coin.setFont(font);
+    coin.setCharacterSize(24);
+    coin.setFillColor(sf::Color::Cyan);
+    coin.setStyle(sf::Text::Bold);
+    coin.setString(std::to_string(c));
 
     sf::Text zycie;
     zycie.setFont(font);
@@ -67,6 +92,18 @@ int main()
     zycie.setFillColor(sf::Color::Cyan);
     zycie.setStyle(sf::Text::Bold);
     zycie.setString("Health Points:");
+    sf::Text money;
+    money.setFont(font);
+    money.setCharacterSize(24);
+    money.setFillColor(sf::Color::Cyan);
+    money.setStyle(sf::Text::Bold);
+    money.setString("Coins:");
+    sf::Text money1;
+    money1.setFont(font);
+    money1.setCharacterSize(24);
+    money1.setFillColor(sf::Color::Cyan);
+    money1.setStyle(sf::Text::Bold);
+    money1.setString("/4");
 
 
     int option = 1;
@@ -84,13 +121,18 @@ int main()
     sf::Texture platformTexture;
     platformTexture.loadFromFile("floor.png");
     sf::Texture endboxTexture;
-    endboxTexture.loadFromFile("endingbox.jpg");
+    endboxTexture.loadFromFile("endboxinio.png");
     sf::Texture mTexture;
     mTexture.loadFromFile("enemo.png");
     sf::Texture blockTexture;
     blockTexture.loadFromFile("trreee2.png");
     sf::Texture memeTexture;
     memeTexture.loadFromFile("tenor.gif");
+    sf::Texture coinTexture;
+    coinTexture.loadFromFile("coin.png");
+    sf::Texture doorTexture;
+    doorTexture.loadFromFile("doors.png");
+    door.setTexture(&doorTexture);
     meme.setTexture(&memeTexture);
     endbox.setTexture(&endboxTexture);
     bckground.setTexture(&backgroundTexture);
@@ -99,10 +141,14 @@ int main()
     Player player(&playerTexture, sf::Vector2u(8, 6), 0.1f, 200.0f, 300.0f);
     Player updateB3(&endboxTexture, sf::Vector2u(1, 1), 0.1f, 0.0f, 0.0f);
 
-    Enemy monster(&mTexture, sf::Vector2f(850.0f, -1220.0f), 60.0f, sf::Vector2u(8, 1), 0.03f);
+    Enemy monster(&mTexture, sf::Vector2f(640.0f, -930.0f), 60.0f, sf::Vector2u(8, 1), 0.03f);
     Enemy monster1(&mTexture, sf::Vector2f(650.0f, -640.0f), 50.0f, sf::Vector2u(8, 1), 0.03f);
-    Enemy monster2(&mTexture, sf::Vector2f(850.0f, -60.0f), 70.0f, sf::Vector2u(8, 1), 0.03f);
-    Enemy monster3(&mTexture, sf::Vector2f(650.0f, 230.0f), 70.0f, sf::Vector2u(8, 1), 0.03f); 
+    Enemy monster2(&mTexture, sf::Vector2f(1000.0f, -60.0f), 70.0f, sf::Vector2u(8, 1), 0.03f);
+    Enemy monster3(&mTexture, sf::Vector2f(650.0f, 230.0f), 90.0f, sf::Vector2u(8, 1), 0.03f);
+    Enemy coino(&coinTexture, sf::Vector2f(650.0f, 230.0f), 0.0f, sf::Vector2u(13, 1), 0.03f);
+    Enemy coino1(&coinTexture, sf::Vector2f(-700.f, 1200.f), 0.0f, sf::Vector2u(13, 1), 0.03f);
+    Enemy coino2(&coinTexture, sf::Vector2f(650.0f, -640.0f), 0.0f, sf::Vector2u(13, 1), 0.03f);
+    Enemy coino3(&coinTexture, sf::Vector2f(850.0f, -60.0f), 0.0f, sf::Vector2u(13, 1), 0.03f);
     
    // std::vector<Enemy> enemies;
     /*enemies.push_back(Enemy(&mTexture, sf::Vector2f(200.0f, 128.0f), 100.0f));
@@ -163,9 +209,7 @@ int main()
                     }
                     if (evnt.key.code == sf::Keyboard::Enter or evnt.key.code == sf::Keyboard::Space) {
                         in_menu = false;
-                        if (option != 3) {
-                            std::cout << "Wybrano opcje " << option << std::endl;
-                        }
+                        
                     }
                     good = false;
                 }
@@ -195,6 +239,7 @@ int main()
                 option2.setCharacterSize(90);
                 option3.setFillColor(sf::Color::Cyan);
                 option3.setCharacterSize(90);
+                
             }
             if (option == 2)
             {
@@ -204,6 +249,7 @@ int main()
                 option2.setCharacterSize(100);
                 option3.setFillColor(sf::Color::Cyan);
                 option3.setCharacterSize(90);
+                
             }
             if (option == 3)
             {
@@ -213,11 +259,14 @@ int main()
                 option2.setCharacterSize(90);
                 option3.setFillColor(sf::Color::White);
                 option3.setCharacterSize(100);
+                
             }
             window.draw(mejnmenju);
             window.draw(option1);
             window.draw(option2);
             window.draw(option3);
+            window.draw(napis1);
+            
             
         }
         else {
@@ -234,6 +283,7 @@ int main()
                     platform.Draw(window);
                 
                 player.Draw(window);
+                window.draw(door);
                 
                 
 
@@ -304,51 +354,121 @@ int main()
                     monster3.Draw(window);
 
                 }
+                if (coino.getExists())
+                {
+
+                    coino.update1(deltaTime);
+
+
+                    if (player.getBounds().intersects(coino.getBounds()))
+                    {
+                        coino.kill();
+                        c++;
+
+                    }
+
+                    coino.Draw(window);
+                }
+                if (coino1.getExists())
+                {
+
+                    coino1.update1(deltaTime);
+
+
+                    if (player.getBounds().intersects(coino1.getBounds()))
+                    {
+                        coino1.kill();
+                        c++;
+
+                    }
+
+                    coino1.Draw(window);
+                }
+                if (coino2.getExists())
+                {
+
+                    coino2.update1(deltaTime);
+
+
+                    if (player.getBounds().intersects(coino2.getBounds()))
+                    {
+                        coino2.kill();
+                        c++;
+
+                    }
+
+                    coino2.Draw(window);
+                }
+                if (coino3.getExists())
+                {
+
+                    coino3.update1(deltaTime);
+
+
+                    if (player.getBounds().intersects(coino3.getBounds()))
+                    {
+                        coino3.kill();
+                        c++;
+
+                    }
+
+                    coino3.Draw(window);
+                }
                 if (z == 0)
                 {
                     window.close();
                 }
-                if (player.GetPosition().y <= -1180 && player.GetPosition().x > 100)
-                {
+                if (player.GetPosition().y <= -1180 && player.GetPosition().x > 600 && c==4)
+                {   
+                    player.velocity.x = 0;
+                    endbox.setPosition(player.GetPosition().x-700, player.GetPosition().y - 800);
                     window.draw(endbox);
-                }if (player.GetPosition().y <= -1300 && player.GetPosition().x > 100)
+                }if (player.GetPosition().y <= -1180 && player.GetPosition().x > 500 && c < 4)
+                {   
+                    window.draw(napis);
+                }
+                if (player.GetPosition().y <= -1400 && player.GetPosition().x > 100 && c==4)
                 {
+                    window.close();
+                }
+               
+
+                    view.setCenter(player.GetPosition());
+                    hp.setPosition(player.GetPosition().x - 130.0f, player.GetPosition().y + 140.f);
+                    coin.setPosition(player.GetPosition().x + 180.0f, player.GetPosition().y + 140.f);
+                    money.setPosition(player.GetPosition().x + 100.0f, player.GetPosition().y + 140.f);
+                    money1.setPosition(player.GetPosition().x + 200.0f, player.GetPosition().y + 140.f);
+                    zycie.setPosition(player.GetPosition().x - 310.0f, player.GetPosition().y + 140.f);
+               
+                window.draw(hp);
+                window.draw(money);
+                window.draw(money1);
+                window.draw(coin);
+                window.draw(zycie);
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
                     window.close();
                 }
                 
-
-                    view.setCenter(player.GetPosition());
-                    hp.setPosition(player.GetPosition().x -130.0f, player.GetPosition().y + 140.f);
-                    zycie.setPosition(player.GetPosition().x -310.0f, player.GetPosition().y + 140.f);
-               
-                window.draw(hp);
-                window.draw(zycie);
-               
-                if (evnt.key.code == sf::Keyboard::Escape) {
-                    window.close();
-                }
 
             }
             if (option == 2) {
                 sf::Text inst;
                 inst.setFont(font);
-                inst.setString("To move the character to the left (<) push A button\n To the right (>) its needed to be pushed the D button\n To jump the space (_) must be pressed");
+                inst.setString("To move the character to the left (<) push the A button\n To the right (>) push the D button\n To jump push the space button (_)\n You are not capable of killing enemies so do your best \nto avoid them!!! :)");
                 inst.setCharacterSize(60);
                 inst.setFillColor(sf::Color::White);
-                inst.setPosition(sf::Vector2f(200.0, 500.0));
+                inst.setPosition(sf::Vector2f(200.0, 400.0));
                 window.draw(inst);
-                if (evnt.key.code == sf::Keyboard::Escape) {
-                    if (in_menu) {
-                        option = 3;
-                        in_menu = false;
-                    }
-                }
+                
             }
+            
+           
             if (option == 3) {
                 window.close();
             }
         }
         hp.setString(std::to_string(z));
+        coin.setString(std::to_string(c));
         
         
         

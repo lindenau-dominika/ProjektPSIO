@@ -27,12 +27,12 @@ void Enemy::update1(float deltaTime)
 	
 	//velocity.x = speed;
 
-	if (body.getPosition().x >= 840.0f)
+	if (body.getPosition().x >= 640.0f)
 	{
 		velocity.x = -speed;
 		
 	}
-	if (body.getPosition().x <= 560.0f)
+	if (body.getPosition().x <= 380.0f)
 	{
 		velocity.x = +speed;
 	}
@@ -52,7 +52,7 @@ void Enemy::update2(float deltaTime)
 		velocity.x = -speed;
 		
 	}
-	if (body.getPosition().x <= 230.0f)
+	if (body.getPosition().x <= 210.0f)
 	{
 		velocity.x = +speed;
 	}
@@ -126,6 +126,7 @@ const sf::FloatRect Enemy::getBounds() const
 bool Enemy::getExists()
 {
 	return this->exists;
+	
 }
 
 void Enemy::kill()

@@ -71,6 +71,10 @@ void Player::update(float deltaTime)
 	{
 		body.setPosition(128.0f, 450.0f);
 	}
+	if (body.getPosition().y >= 1500.0f)
+	{
+		body.setPosition(128.0f, 450.0f);
+	}
 	
 	animation.Update(row, deltaTime, faceRight);
 	body.setTextureRect(animation.uvRect);
@@ -128,6 +132,8 @@ void Player::updateB2(float deltaTime)
 	{
 		body.setPosition(128.0f, 450.0f);
 	}
+	
+	
 }
 
 void Player::Draw(sf::RenderWindow& window)
