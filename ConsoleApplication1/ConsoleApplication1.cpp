@@ -119,7 +119,7 @@ int main()
     platforms.push_back(Platform(&platformTexture, sf::Vector2f(300.0f, 100.0f), sf::Vector2f(500.0f, 300.0f)));
     platforms.push_back(Platform(&platformTexture, sf::Vector2f(2000.0f, 200.0f), sf::Vector2f(500.0f, 600.0f)));
     platforms.push_back(Platform(&platformTexture, sf::Vector2f(2000.0f, 200.0f), sf::Vector2f(-600.0f, 1400.0f)));
-    platforms.push_back(Platform(&blockTexture, sf::Vector2f(300.0f, 300.0f), sf::Vector2f(1400.0f, 395.0f)));
+    platforms.push_back(Platform(&blockTexture, sf::Vector2f(300.0f, 450.0f), sf::Vector2f(1400.0f, 360.0f)));
     platforms.push_back(Platform(&blockTexture, sf::Vector2f(300.0f, 300.0f), sf::Vector2f(-360.0f, 395.0f)));
     platforms.push_back(Platform(&blockTexture, sf::Vector2f(300.0f, 400.0f), sf::Vector2f(100.0f, 1150.0f)));
     

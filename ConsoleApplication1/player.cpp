@@ -124,6 +124,10 @@ void Player::updateB2(float deltaTime)
 	body.setSize(sf::Vector2f(1024.0f, 1024.0f));
 	body.setOrigin(512.0f, 512.0f);
 
+	if (body.getPosition().x >= 1900.0f)
+	{
+		body.setPosition(128.0f, 450.0f);
+	}
 }
 
 void Player::Draw(sf::RenderWindow& window)
