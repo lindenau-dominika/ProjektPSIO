@@ -271,6 +271,7 @@ int main()
         }
         else {
             if (option == 1) {
+                
                 // "odswiezam" klatki
                 window.clear();
                 window.setView(view);
@@ -414,16 +415,20 @@ int main()
 
                     coino3.Draw(window);
                 }
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+                    window.close();
+                    window.close();
+                }
                 if (z == 0)
                 {
                     window.close();
                 }
                 if (player.GetPosition().y <= -1180 && player.GetPosition().x > 600 && c==4)
-                {   
-                    player.velocity.x = 0;
+                {  
                     endbox.setPosition(player.GetPosition().x-700, player.GetPosition().y - 800);
                     window.draw(endbox);
-                }if (player.GetPosition().y <= -1180 && player.GetPosition().x > 500 && c < 4)
+                }
+                if (player.GetPosition().y <= -1180 && player.GetPosition().x > 500 && c < 4)
                 {   
                     window.draw(napis);
                 }
@@ -431,6 +436,7 @@ int main()
                 {
                     window.close();
                 }
+                
                
 
                     view.setCenter(player.GetPosition());
@@ -440,14 +446,14 @@ int main()
                     money1.setPosition(player.GetPosition().x + 200.0f, player.GetPosition().y + 140.f);
                     zycie.setPosition(player.GetPosition().x - 310.0f, player.GetPosition().y + 140.f);
                
+                    
+
                 window.draw(hp);
                 window.draw(money);
                 window.draw(money1);
                 window.draw(coin);
                 window.draw(zycie);
-                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-                    window.close();
-                }
+                
                 
 
             }
