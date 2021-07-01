@@ -174,7 +174,7 @@ int main()
         sf::Music music;
         if (!music.openFromFile("mjuzik.wav"))
             return -1;
-        music.setVolume(20.f);
+        music.setVolume(60.f);
         music.play();
         music.setLoop(true);
 
